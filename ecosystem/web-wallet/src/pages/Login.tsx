@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react'
-import { AptosAccount } from 'aptos'
+import { AptosAccount, AptosClient, Types } from 'aptos'
 import { Buffer } from 'buffer'
 import {
   useNavigate
@@ -26,6 +26,7 @@ import { AptosBlackLogo, AptosWhiteLogo } from '../components/AptosLogo'
 import withSimulatedExtensionContainer from '../components/WithSimulatedExtensionContainer'
 import { QuestionIcon } from '@chakra-ui/icons'
 import { getAccountResources } from './Wallet'
+import { devnetNodeUrl } from '../constants'
 
 type Inputs = Record<string, any>
 
@@ -52,6 +53,25 @@ function Login () {
   const navigate = useNavigate()
 
   const onSubmit: SubmitHandler<Inputs> = async (data, event) => {
+    await (window as any).aptos.account(async (response: any) => {
+      console.log('account: ' + response.address)
+      const address = response.address
+      const client = new AptosClient(devnetNodeUrl)
+      const payload: Types.TransactionPayload = {
+        type: 'script_function_payload',
+        function: '0x1::TestCoin::transfer',
+        type_arguments: [],
+        arguments: ['D8258F93317CD7F608DD2D025A11DC5734F98E8358BA71FF74A327834E0844AF', '717']
+      }
+      const transaction = await client.generateTransaction(address, payload)
+      await (window as any).aptos.signTransaction(transaction, async (response: any) => {
+        const client = new AptosClient(devnetNodeUrl)
+        console.log(response)
+        const transactionRes = await client.submitTransaction(new AptosAccount(), response)
+        console.log(transactionRes)
+      })
+    })
+
     event?.preventDefault()
     try {
       const encodedKey = Uint8Array.from(Buffer.from(key, 'hex'))
