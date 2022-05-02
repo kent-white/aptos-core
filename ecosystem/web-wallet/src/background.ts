@@ -22,7 +22,25 @@ chrome.runtime.onMessageExternal.addListener(async function (request, _sender, s
   }
 })
 
-function getAccountAddress( account: AptosAccount, sendResponse: (response?: any) => void) {
+// let port = chrome.runtime.connect( { name: 'aptos' } )
+// port.onConnnect(() => {
+//   console.log('connected background')
+// })
+// port.onMessage.addListener(function(message) {
+//   if (message.method === "getAccountAddress") {
+//     const account = getAptosAccountState()?
+//     if (account === undefined) {
+//       port.postMessage({ method: message.method, response: { error: 'No Account Found' } })
+//     }
+//       port.postMessage({ method: message.method, response: { address: account.address().hex() } })
+//   } else if (message.method === "signTransaction") {
+//     port.postMessage({ method: message.method, address: 'test' });
+//   } else {
+//     port.postMessage({ method: message.method, response: { error: 'method not supported' } })
+//   }
+// })
+
+function getAccountAddress (account: AptosAccount, sendResponse: (response?: any) => void) {
   if (account.address()) {
     sendResponse({ address: account.address().hex() })
   } else {

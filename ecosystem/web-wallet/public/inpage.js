@@ -17,6 +17,25 @@ class Web3 {
     })
   }
 
+  // port() {
+  //   if (this.port === null) {
+  //     this.port = chrome.runtime.connect( { name: 'aptos' } )
+  //   } 
+  //   return this.port
+  // }
+
+
+  // account (completion) {
+  //   let port = chrome.runtime.connect(extensionId,  { name: 'aptos' } )
+  //   const method = `getAccountAddress`
+  //   port.postMessage( { method: method } )
+  //   port.onMessage.addListener(message => {
+  //     if (method === method) {
+  //       completion(message.reponse)
+  //     }
+  //   })
+  // }
+
   signTransaction (transaction, completion) {
     return new Promise(function (resolve, reject) {
       chrome.runtime.sendMessage(extensionId, { method: 'signTransaction', transaction }, function (response) {
