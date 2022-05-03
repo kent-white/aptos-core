@@ -2,8 +2,8 @@
   "short_name": "Aptos",
   "name": "Aptos Wallet",
   "version": "0.0.1",
-  "manifest_version": 2,
-  "browser_action": {
+  "manifest_version": 3,
+  "action": {
     "default_popup": "index.html"
   },
   "content_scripts": [{
@@ -13,11 +13,13 @@
     ]
   }],
   "web_accessible_resources": [
-    "inpage.js"
+    {
+      "resources": [ "inpage.js" ],
+      "matches": [ "<all_urls>" ]
+    }
   ],
   "background": {
-    "scripts": ["background.ts"],
-    "persistent": true
+    "service_worker": "background.js"
   },
   "externally_connectable": {
     "matches": ["http://localhost/*"],

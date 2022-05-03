@@ -27,6 +27,7 @@ import withSimulatedExtensionContainer from '../components/WithSimulatedExtensio
 import { getAccountResources } from './Wallet'
 import ChakraLink from '../components/ChakraLink'
 import { secondaryBgColor, secondaryErrorMessageColor } from '../constants'
+import { testdb } from '../utils/db'
 
 type Inputs = Record<string, any>
 
@@ -43,6 +44,7 @@ function Login () {
   const navigate = useNavigate()
 
   const onSubmit: SubmitHandler<Inputs> = async (data, event) => {
+    testdb()
     event?.preventDefault()
     try {
       const encodedKey = Uint8Array.from(Buffer.from(key, 'hex'))

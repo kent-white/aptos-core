@@ -47,24 +47,3 @@ export function getAptosAccountState (): AptosAccountState {
     return undefined
   }
 }
-
-export function getLocalStorageState (): LocalStorageState | null {
-  // Get from local storage by key
-  const item = window.localStorage.getItem(walletStateLocalStorageKey)
-  if (item) {
-    const accountObject: AptosAccountObject = JSON.parse(item)
-    return { aptosAccountObject: accountObject }
-  } else {
-    return null
-  }
-}
-
-export function getAptosAccountState (): AptosAccountState {
-  const localStorage = getLocalStorageState()
-  if (localStorage) {
-    const { aptosAccountObject } = localStorage
-    return aptosAccountObject ? AptosAccount.fromAptosAccountObject(aptosAccountObject) : undefined
-  } else {
-    return undefined
-  }
-}
