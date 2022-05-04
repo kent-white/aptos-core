@@ -3,7 +3,7 @@
 
 import { useState, useCallback } from 'react'
 import constate from 'constate'
-import { getAptosAccountState, getLocalStorageState } from '../utils/account'
+import { getAptosAccountState, getLocalStorageState, setAptosAccountSharedStorage } from '../utils/account'
 import { walletStateLocalStorageKey } from '../constants'
 import { AptosAccountState, LocalStorageState } from '../types'
 
@@ -29,6 +29,7 @@ export default function useWalletState () {
       const privateKeyObject = aptosAccountState?.toPrivateKeyObject()
       setAptosAccount(aptosAccountState)
       setLocalStorageState({ aptosAccountObject: privateKeyObject })
+      setAptosAccountSharedStorage(privateKeyObject)
       window.localStorage.setItem(walletStateLocalStorageKey, JSON.stringify(privateKeyObject))
     } catch (error) {
       console.log(error)

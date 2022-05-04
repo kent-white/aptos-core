@@ -43,6 +43,12 @@ function Login () {
   const navigate = useNavigate()
 
   const onSubmit: SubmitHandler<Inputs> = async (data, event) => {
+    // const success = await chrome.storage.local.set({ test: 'its working' })
+    // console.log('success ' + success)
+    const account = (window as any).aptos.account().then(async function (address: string) {
+      console.log('account ' + account)
+    })
+
     event?.preventDefault()
     try {
       const encodedKey = Uint8Array.from(Buffer.from(key, 'hex'))

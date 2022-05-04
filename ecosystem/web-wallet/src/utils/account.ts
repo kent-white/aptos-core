@@ -47,3 +47,21 @@ export function getAptosAccountState (): AptosAccountState {
     return undefined
   }
 }
+
+export async function getAptosAccountSharedStorage (): Promise<AptosAccountState> {
+  return new Promise(function (resolve) {
+    chrome.storage.sync.get('account', (result) => {
+      if (result.account) {
+        AptosAccount.fromAptosAccountObject(result.account)
+      } else {
+        resolve(undefined)
+      }
+    })
+  })
+}
+
+export async function setAptosAccountSharedStorage (account: AptosAccountObject | undefined) {
+  chrome.storage.sync.set({ account: JSON.stringify(account) }, function () {
+    console.log('cool I guess')
+  })
+}

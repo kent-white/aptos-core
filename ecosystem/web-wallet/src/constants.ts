@@ -1,6 +1,7 @@
 // Copyright (c) Aptos
 // SPDX-License-Identifier: Apache-2.0
 
+export const ACCOUNT_STORAGE_KEY = 'account_storage_key'
 export const KEY_LENGTH: number = 64
 export const DEVNET_NODE_URL = 'https://fullnode.devnet.aptoslabs.com'
 export const FAUCET_URL = 'https://faucet.devnet.aptoslabs.com'

@@ -2,12 +2,16 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { AptosAccount, AptosClient, Types } from 'aptos'
-import { devnetNodeUrl } from './constants'
+import { DEVNET_NODE_URL } from './constants'
 import { MessageMethod } from './types'
 import { getAptosAccountState } from './utils/account'
 
 chrome.runtime.onMessageExternal.addListener(async function (request, _sender, sendResponse) {
-  const account = getAptosAccountState()
+  chrome.storage.local.get('test', function(data) {
+    console.log('test ' + data.test)
+  })
+  // const account = getAptosAccountState()
+  const account = undefined
   if (account === undefined) {
     sendResponse({ error: 'No Accounts' })
     return
@@ -33,7 +37,7 @@ function getAccountAddress( account: AptosAccount, sendResponse: (response?: any
 }
 
 async function signTransaction (account: AptosAccount, transaction: Types.UserTransactionRequest, sendResponse: (response?: any) => void) {
-  const client = new AptosClient(devnetNodeUrl)
+  const client = new AptosClient(DEVNET_NODE_URL)
   const message = await client.createSigningMessage(transaction)
   const signatureHex = account.signHexString(message.substring(2))
   const transactionSignature = {
